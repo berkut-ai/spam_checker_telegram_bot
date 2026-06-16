@@ -18,9 +18,11 @@ def start_message(mes):
 @bot.message_handler(content_types=['text'])
 def text(mes):
     data = vectorizer.transform([mes.text])
-    pred = model.predict(data)[0]
 
-    bot.send_message(mes.chat.id, f"I think it's{' ' if pred else ' not '}spam.")
+    proba = model.predict_proba(data)[0][1]
+
+
+    bot.send_message(mes.chat.id, f"I think it's{' ' if proba > 0.7 else ' not '}spam.")
 
 
 
